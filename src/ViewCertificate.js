@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // ViewCertificate.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";

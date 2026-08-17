@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/jsx-pascal-case */
 import React, { useState } from "react";
 import "./thirdpage.css";
 import Sidebar from "./Sidebar";

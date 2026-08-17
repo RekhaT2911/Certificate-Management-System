@@ -15,18 +15,20 @@ app.use(
 );
 
 // Database Connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "satya",
- password: "1234",
- database: "svecw",
-});
+const mysql = require('mysql2');
 
+const db = mysql.createConnection(process.env.MYSQL_URL);
 
 db.connect((err) => {
-  if (err) throw err;
-  console.log("Connected to MySQL Database");
+  if (err) {
+    console.error('MySQL connection failed:', err);
+  } else {
+    console.log('MySQL connected successfully');
+  }
 });
+
+module.exports = db;
+
 app.get("/api/student/:regNo", (req, res) => {
   const { regNo } = req.params;
 
