@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext, useState } from "react";
 import axios from "axios";
 import "./login.css";
 import { appContext } from "./App";
@@ -7,7 +7,11 @@ import Header from "./Header";
 const Login = () => {
   const userRef = useRef(null);
   const passwordRef = useRef(null);
+
   const { setIsLogin, setRole } = useContext(appContext);
+
+  // Student is selected by default
+  const [loginType, setLoginType] = useState("student");
 
   useEffect(() => {
     userRef.current.focus();
@@ -15,37 +19,65 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const username = userRef.current.value;
     const password = passwordRef.current.value;
 
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/login",
+        {
+          username,
+          password,
+        }
+      );
 
       if (response.status === 200) {
+
+        // Check whether selected login type matches actual user role
+        if (response.data.role !== loginType) {
+          alert(
+            `This account is a ${response.data.role} account. Please select ${response.data.role} login.`
+          );
+
+          setIsLogin("notlogin");
+          return;
+        }
+
         alert("Login Successful");
+
         setIsLogin("login");
         setRole(response.data.role);
 
-        // Store only the registration number (username)
+        // Store registration number / username
         localStorage.setItem("reg_no", response.data.username);
 
-        console.log("Successfully logged in as:", response.data.username);
-
-        // Perform additional actions if needed (e.g., redirect)
+        console.log(
+          "Successfully logged in as:",
+          response.data.username
+        );
+        console.log("Role:", response.data.role);
       }
+
     } catch (error) {
+
       if (error.response) {
+
         if (error.response.status === 404) {
           alert("User not found");
+
         } else if (error.response.status === 401) {
           alert("Invalid password");
+
         } else {
           alert("An error occurred. Please try again later.");
         }
-        console.error("Login error:", error.response.data.message);
+
+        console.error(
+          "Login error:",
+          error.response.data.message
+        );
+
       } else {
         alert("Server not reachable.");
         console.error("Network error:", error);
@@ -60,47 +92,112 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <>
       <Header />
+
       <div className="login-container">
+
+        {/* LEFT SIDE */}
         <div className="login-left">
-          <h2 className="login-logo">
-            <img
-              src="student.png"
-              alt="Student Icon"
-              className="student-icon"
-            />
-            Welcome back
-          </h2>
-          <p>Please enter your details</p>
-          <form className="login-form" onSubmit={handleSubmit}>
-            <label>Username</label>
+
+          <div className="login-form">
+
+            <h2>
+              {loginType === "student" ? "🎓" : "👨‍🏫"} Welcome back
+            </h2>
+
+            <p>Please select your login type</p>
+
+            {/* STUDENT / FACULTY SELECTOR */}
+            <div className="role-selector">
+
+              <button
+                type="button"
+                className={
+                  loginType === "student"
+                    ? "role-btn active"
+                    : "role-btn"
+                }
+                onClick={() => setLoginType("student")}
+              >
+                🎓 Student
+              </button>
+
+              <button
+                type="button"
+                className={
+                  loginType === "faculty"
+                    ? "role-btn active"
+                    : "role-btn"
+                }
+                onClick={() => setLoginType("faculty")}
+              >
+                👨‍🏫 Faculty
+              </button>
+
+            </div>
+
+            <h3 className="login-type-title">
+              {loginType === "student"
+                ? "Student Login"
+                : "Faculty Login"}
+            </h3>
+
+            {/* USERNAME */}
+            <label>
+              {loginType === "student"
+                ? "Student Username"
+                : "Faculty Username"}
+            </label>
+
             <input
-              type="text"
-              placeholder="Enter your username"
               ref={userRef}
+              type="text"
+              placeholder={
+                loginType === "student"
+                  ? "Enter student username"
+                  : "Enter faculty username"
+              }
             />
+
+            {/* PASSWORD */}
             <label>Password</label>
+
             <input
+              ref={passwordRef}
               type="password"
               placeholder="Enter your password"
-              ref={passwordRef}
             />
+
+            {/* FORGOT PASSWORD */}
             <div className="login-options">
               <a href="#forgot" className="forgot-password">
                 Forgot password
               </a>
             </div>
-            <button type="submit" className="login-button">
-              Log in
+
+            {/* LOGIN BUTTON */}
+            <button
+              type="button"
+              className="login-button"
+              onClick={handleSubmit}
+            >
+              Log in as{" "}
+              {loginType === "student"
+                ? "Student"
+                : "Faculty"}
             </button>
-          </form>
+
+          </div>
         </div>
+
+        {/* RIGHT SIDE - YOUR EXISTING IMAGE */}
         <div className="login-right">
           <div className="illustration"></div>
         </div>
+
       </div>
-    </div>
+    </>
   );
 };
 

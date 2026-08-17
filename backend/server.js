@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const XLSX = require("xlsx");
 const app = express();
 const PORT = 5000;
@@ -18,9 +18,10 @@ app.use(
 const db = mysql.createConnection({
   host: "localhost",
   user: "satya",
-  password: "1234",
-  database: "svecw",
+ password: "1234",
+ database: "svecw",
 });
+
 
 db.connect((err) => {
   if (err) throw err;
