@@ -40,7 +40,7 @@ const Certificate = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/certificates_normal_faculty",
+        "https://certificate-management-system-production.up.railway.app/api/certificates_normal_faculty",
         data,
         {
           headers: { "Content-Type": "multipart/form-data" },

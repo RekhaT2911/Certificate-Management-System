@@ -25,7 +25,7 @@ const ViewCertificate = () => {
     setError(null);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/certificates/${regNo}`
+        `https://certificate-management-system-production.up.railway.app/api/certificates/${regNo}`
       );
       setCertificates(response.data);
     } catch (err) {
@@ -47,7 +47,7 @@ const ViewCertificate = () => {
   const handleDownload = async (certificatePath, fileName, index) => {
     try {
       setDownloadingIndex(index);
-      const fileUrl = `http://localhost:5000${certificatePath}`;
+      const fileUrl = `https://certificate-management-system-production.up.railway.app${certificatePath}`;
 
       // Fetch the file as a blob
       const response = await axios.get(fileUrl, {
@@ -94,13 +94,13 @@ const ViewCertificate = () => {
         <div className="card-image">
           {cert.certificate_path.toLowerCase().endsWith(".pdf") ? (
             <embed
-              src={`http://localhost:5000${cert.certificate_path}`}
+              src={`https://certificate-management-system-production.up.railway.app${cert.certificate_path}`}
               type="application/pdf"
               className="pdf-preview"
             />
           ) : (
             <img
-              src={`http://localhost:5000${cert.certificate_path}`}
+              src={`https://certificate-management-system-production.up.railway.app${cert.certificate_path}`}
               alt="Certificate"
               className="image-preview"
             />

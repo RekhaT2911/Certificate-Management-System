@@ -13,7 +13,7 @@ const Profile_fac = () => {
     }
 
     // Fetch faculty details from the backend
-    fetch(`http://localhost:5000/api/faculty/${regNo}`)
+    fetch(`https://certificate-management-system-production.up.railway.app/api/faculty/${regNo}`)
       .then((response) => response.json())
       .then((data) => {
         setProfileData(data);

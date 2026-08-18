@@ -252,7 +252,7 @@ const FacultyCertificates = () => {
           ? "/api/nptel_distinct_values"
           : "/api/training_distinct_values";
 
-      const response = await axios.get(`http://localhost:5000${endpoint}`);
+      const response = await axios.get(`https://certificate-management-system-production.up.railway.app${endpoint}`);
 
       if (activeTab === "NPTEL") {
         setNptelOptions(response.data);
@@ -286,7 +286,7 @@ const FacultyCertificates = () => {
     const filters = activeTab === "NPTEL" ? nptelFilters : trainingFilters;
 
     axios
-      .get(`http://localhost:5000${endpoint}`, { params: filters })
+      .get(`https://certificate-management-system-production.up.railway.app${endpoint}`, { params: filters })
       .then((res) => setCertificates(res.data))
       .catch(() => setError("Failed to fetch certificates. Please try again."));
   };
@@ -300,7 +300,7 @@ const FacultyCertificates = () => {
           : "/api/training_certificates/download";
       const filters = activeTab === "NPTEL" ? nptelFilters : trainingFilters;
 
-      const response = await axios.get(`http://localhost:5000${endpoint}`, {
+      const response = await axios.get(`https://certificate-management-system-production.up.railway.app${endpoint}`, {
         params: filters,
         responseType: "blob",
       });
@@ -616,13 +616,13 @@ const FacultyCertificates = () => {
                   {item.certificate_path ? (
                     item.certificate_path.endsWith(".pdf") ? (
                       <embed
-                        src={`http://localhost:5000${item.certificate_path}`}
+                        src={`https://certificate-management-system-production.up.railway.app${item.certificate_path}`}
                         type="application/pdf"
                         style={styles.certificatePreview}
                       />
                     ) : (
                       <img
-                        src={`http://localhost:5000${item.certificate_path}`}
+                        src={`https://certificate-management-system-production.up.railway.app${item.certificate_path}`}
                         alt="Certificate"
                         style={styles.certificatePreview}
                       />

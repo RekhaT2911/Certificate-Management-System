@@ -23,7 +23,7 @@ const ChangePassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/update-password",
+        "https://certificate-management-system-production.up.railway.app/api/update-password",
         {
           regNo,
           existingPassword,

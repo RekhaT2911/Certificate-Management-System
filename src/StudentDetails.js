@@ -14,7 +14,7 @@ const StudentDetails = () => {
     }
 
     // Fetch student details from the backend
-    fetch(`http://localhost:5000/api/student/${regNo}`)
+    fetch(`https://certificate-management-system-production.up.railway.app/api/student/${regNo}`)
       .then((response) => response.json())
       .then((data) => {
         setStudentData(data);

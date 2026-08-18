@@ -61,7 +61,7 @@ const NptelForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/nptel",
+        "https://certificate-management-system-production.up.railway.app/api/nptel",
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
